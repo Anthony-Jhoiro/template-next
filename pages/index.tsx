@@ -1,7 +1,18 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import {ComponentWithAlerts} from "../types/alerts";
 
-const Home: NextPage = () => {
+const Home: NextPage<ComponentWithAlerts> = ({newAlert}) => {
+
+  function onClick() {
+    newAlert({
+      title: 'This is an alert',
+      type: "INFO",
+      children: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi labore libero nulla placeat praesentium sequi! Aliquam aliquid amet aspernatur assumenda doloremque facere magni natus nemo, nisi saepe tempora unde voluptatibus!</p>
+    });
+  }
+
+
   return (
     <div className={''}>
       <Head>
@@ -11,6 +22,7 @@ const Home: NextPage = () => {
       </Head>
 
       <h1>Hello World !</h1>
+      <button onClick={onClick}>Add alert !</button>
 
     </div>
   )
