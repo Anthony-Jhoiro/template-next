@@ -1,11 +1,13 @@
 import '../styles/globals.css'
 import type {AppProps} from 'next/app'
-import {AlertWrapper} from "../components/AlertWrapper";
+import {Toaster} from "react-hot-toast";
 
 function MyApp({Component, pageProps}: AppProps) {
-  return <AlertWrapper>
+  return <>
+    <Toaster />
     <Component {...pageProps} />
-  </AlertWrapper>
+  </>
+
 }
 
 export default MyApp

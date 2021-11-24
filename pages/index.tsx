@@ -1,16 +1,14 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import {ComponentWithAlerts} from "../types/alerts";
+import {alert} from "../utils/alert";
 
-const Home: NextPage<ComponentWithAlerts> = ({newAlert}) => {
+const Home: NextPage<ComponentWithAlerts> = () => {
 
-  function onClick() {
-    newAlert({
-      title: 'This is an alert',
-      type: "INFO",
-      children: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi labore libero nulla placeat praesentium sequi! Aliquam aliquid amet aspernatur assumenda doloremque facere magni natus nemo, nisi saepe tempora unde voluptatibus!</p>
-    });
+  const notify = () => {
+    alert('INFO', 'Hello World !', 'This is a toast !')
   }
+
 
 
   return (
@@ -21,8 +19,7 @@ const Home: NextPage<ComponentWithAlerts> = ({newAlert}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Hello World !</h1>
-      <button onClick={onClick}>Add alert !</button>
+      <button onClick={notify}>Make me a toast</button>
 
     </div>
   )
