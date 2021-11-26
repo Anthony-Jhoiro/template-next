@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {AlertType} from "../types/alerts";
+import {AlertType} from "../../types/alerts";
 
 
 export interface AlertProps {
