@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - ci/setup_storybook_build_automation
     paths: ["pages/**", "components/**", ".github/workflows/storybook.yml"]
 
 jobs:
