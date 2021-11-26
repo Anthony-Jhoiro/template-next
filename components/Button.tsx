@@ -38,15 +38,17 @@ export function Button({
                          icon,
                          variant = 'PRIMARY',
                          children,
+                         disabled,
                          className = '',
                          ...defaultProps
 
                        }: ButtonProps) {
 
+  const usedVariant = disabled ? 'DISABLED' : variant;
 
   return (
-    <button {...defaultProps} className={`py-2 px-4 ${variantStyles[variant]} ${className}`}>
-      {icon && <FontAwesomeIcon icon={icon} color={iconColorVariants[variant]} className={'mr-2'}/>}
+    <button {...defaultProps} className={`py-2 px-4 ${variantStyles[usedVariant]} ${className}`} disabled={disabled}>
+      {icon && <FontAwesomeIcon icon={icon} color={iconColorVariants[usedVariant]} className={'mr-2'}/>}
       {children}
 
 
