@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - main
-    paths: ["pages/**", "components/**"] # Trigger the action only when files change in the folders defined here
+      - ci/setup_storybook_build_automation
+    paths: ["pages/**", "components/**", ".github/workflows/storybook.yml"]
 
 jobs:
   build-and-deploy:
