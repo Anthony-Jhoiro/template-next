@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -21,10 +23,22 @@
     "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@storybook/addon-actions": "^6.4.0",
+    "@storybook/addon-essentials": "^6.4.0",
+    "@storybook/addon-links": "^6.4.0",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/addons": "^6.4.0",
+    "@storybook/builder-webpack5": "^6.4.0",
+    "@storybook/manager-webpack5": "^6.4.0",
+    "@storybook/react": "^6.4.0",
+    "@storybook/theming": "^6.4.0",
     "@types/node": "16.11.9",
     "@types/react": "17.0.35",
+    "babel-loader": "^8.2.3",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "eslint-plugin-storybook": "^0.5.0",
     "typescript": "4.5.2"
   }
 }
