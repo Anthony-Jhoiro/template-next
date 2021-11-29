@@ -1,11 +1,9 @@
-
-
 interface Environment {
   required?: boolean,
   mapper?: (_v: string) => string
 }
 
-const environmentConfiguration: {[key: string]: Environment} = {
+const environmentConfiguration: { [key: string]: Environment } = {
   HASURA_URL: {
     required: true,
   },
@@ -26,10 +24,14 @@ const environmentConfiguration: {[key: string]: Environment} = {
 
 export const loadEnv = () => {
   const requiredEnvironment = Object.getOwnPropertyNames(environmentConfiguration).reduce<{ [key: string]: string }>((ac, e) => {
+    if (typeof window !== 'undefined' && !e.startsWith('NEXT_PUBLIC')) return ac;
+
     const config = environmentConfiguration[e];
     if (config.required) {
-      const env =process.env[e]
+      const env = process.env[e]
+      console.log({e, env})
       if (!env) {
+        console.log(env)
         throw new Error(`Missing environment variable [${e}]`);
       }
       ac[e] = config.mapper ? config.mapper(env) : env;
