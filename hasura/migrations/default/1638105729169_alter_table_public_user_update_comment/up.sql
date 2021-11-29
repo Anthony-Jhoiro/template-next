@@ -1,0 +1,1 @@
+comment on TABLE "public"."user" is E'The User model is for information such as the user\'s name and email address.  Email address is optional, but if one is specified for a User then it must be unique.';

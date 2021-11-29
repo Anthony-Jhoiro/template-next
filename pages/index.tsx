@@ -2,10 +2,13 @@ import type {NextPage} from 'next'
 import Head from 'next/head'
 import {ComponentWithAlerts} from "../types/alerts";
 import {alert} from "../utils/alert";
-import {Button} from "../components/Button";
-import {faCoffee} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import {useCurrentUser} from "../hooks/useCurrentUser";
 
 const Home: NextPage<ComponentWithAlerts> = () => {
+  const {user, error, fetching} = useCurrentUser();
+
+
 
   const notify = () => {
     alert('INFO', 'Hello World !', 'This is a toast !')
@@ -22,12 +25,18 @@ const Home: NextPage<ComponentWithAlerts> = () => {
 
       <button onClick={notify}>Make me a toast</button>
       <br/>
-      <Button icon={faCoffee} variant={'PRIMARY'} className={'my-2'}>Hello world</Button><br/>
-      <Button icon={faCoffee} variant={'SECONDARY'} className={'my-2'}>Hello world</Button><br/>
-      <Button icon={faCoffee} variant={'SUCCESS'} className={'my-2'}>Hello world</Button><br/>
-      <Button icon={faCoffee} variant={'ERROR'} className={'my-2'}>Hello world</Button><br/>
-      <Button icon={faCoffee} variant={'WARNING'} className={'my-2'}>Hello world</Button><br/>
-      <Button icon={faCoffee} variant={'DISABLED'} className={'my-2'}>Hello world</Button><br/>
+
+      <p>Error {JSON.stringify(error)}</p>
+      <p>Fetching {JSON.stringify(fetching)}</p>
+      <p>User {JSON.stringify(user)}</p>
+
+          {/*Signed in as {session.user?.email} <br/>*/}
+          {/*<button onClick={() => signOut()}>Sign out</button>*/}
+
+      {/*{!session && <>*/}
+      {/*    Not signed in <br/>*/}
+      {/*    <button onClick={() => signIn()}>Sign in</button>*/}
+      {/*</>}*/}
 
 
     </div>
