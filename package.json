@@ -7,23 +7,39 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs-build"
+    "build-storybook": "build-storybook -o docs-build",
+    "hasura-console": "cd hasura && hasura console",
+    "gen-graphql": "graphql-codegen --config codegen.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
+    "@urql/exchange-auth": "^0.1.6",
     "autoprefixer": "^10.4.0",
+    "graphql": "^16.0.1",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^8.5.1",
     "next": "12.0.4",
+    "next-auth": "4.0.0-beta.6",
+    "next-urql": "^3.3.1",
     "postcss": "^8.3.11",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.1.1",
-    "tailwindcss": "^2.2.19"
+    "tailwindcss": "^2.2.19",
+    "urql": "^2.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/introspection": "^2.1.0",
+    "@graphql-codegen/schema-ast": "^2.4.0",
+    "@graphql-codegen/typescript": "^2.4.1",
+    "@graphql-codegen/typescript-graphql-request": "^4.3.1",
+    "@graphql-codegen/typescript-operations": "^2.2.1",
+    "@graphql-codegen/typescript-urql": "^3.4.1",
     "@storybook/addon-actions": "^6.4.0",
     "@storybook/addon-essentials": "^6.4.0",
     "@storybook/addon-links": "^6.4.0",
@@ -36,9 +52,11 @@
     "@types/node": "16.11.9",
     "@types/react": "17.0.35",
     "babel-loader": "^8.2.3",
+    "dotenv": "^10.0.0",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
     "eslint-plugin-storybook": "^0.5.0",
+    "hasura-cli": "^2.0.9",
     "typescript": "4.5.2"
   }
 }
