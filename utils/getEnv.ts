@@ -29,9 +29,7 @@ export const loadEnv = () => {
     const config = environmentConfiguration[e];
     if (config.required) {
       const env = process.env[e]
-      console.log({e, env})
       if (!env) {
-        console.log(env)
         throw new Error(`Missing environment variable [${e}]`);
       }
       ac[e] = config.mapper ? config.mapper(env) : env;

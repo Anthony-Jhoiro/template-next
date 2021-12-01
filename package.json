@@ -16,8 +16,11 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
+    "@tailwindcss/forms": "^0.3.4",
     "@urql/exchange-auth": "^0.1.6",
+    "add": "^2.0.6",
     "autoprefixer": "^10.4.0",
+    "clsx": "^1.1.1",
     "graphql": "^16.0.1",
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^8.5.1",
@@ -29,7 +32,8 @@
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.1.1",
     "tailwindcss": "^2.2.19",
-    "urql": "^2.0.5"
+    "urql": "^2.0.5",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -40,6 +44,7 @@
     "@graphql-codegen/typescript-graphql-request": "^4.3.1",
     "@graphql-codegen/typescript-operations": "^2.2.1",
     "@graphql-codegen/typescript-urql": "^3.4.1",
+    "@storybook/addon-a11y": "^6.4.3",
     "@storybook/addon-actions": "^6.4.0",
     "@storybook/addon-essentials": "^6.4.0",
     "@storybook/addon-links": "^6.4.0",

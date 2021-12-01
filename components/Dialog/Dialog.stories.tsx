@@ -36,7 +36,8 @@ Default.args = {
     {defaultBody}
   </>,
   open: true,
-  closable: true
+  closable: true,
+  'aria-label': 'Default Dialog'
 }
 
 export const Show = () => {
@@ -44,7 +45,7 @@ export const Show = () => {
 
   return (
     <>
-    <Dialog open={dialogOpened} onClose={() => setDialogOpened(false)} closable={true}>
+    <Dialog open={dialogOpened} onClose={() => setDialogOpened(false)} closable={true} aria-label={'Dynamic Dialog'}>
       <DialogTitle className={'text-primary'}>Hello World !</DialogTitle>
       <div className={'divide-y grid-cols-1'}>
         <div className={'p-1 my-5'}>
