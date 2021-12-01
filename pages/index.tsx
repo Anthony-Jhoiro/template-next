@@ -4,15 +4,17 @@ import {ComponentWithAlerts} from "../types/alerts";
 import {alert} from "../utils/alert";
 import React from "react";
 import {useCurrentUser} from "../hooks/useCurrentUser";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 const Home: NextPage<ComponentWithAlerts> = () => {
   const {user, error, fetching} = useCurrentUser();
-
-
+  const {t} = useTranslation('common')
 
   const notify = () => {
     alert('INFO', 'Hello World !', 'This is a toast !')
   }
+
 
 
   return (
@@ -23,9 +25,10 @@ const Home: NextPage<ComponentWithAlerts> = () => {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
 
+      <h1>{t('hello')}</h1>
+
       <button onClick={notify}>Make me a toast</button>
       <br/>
-
       <p>Error {JSON.stringify(error)}</p>
       <p>Fetching {JSON.stringify(fetching)}</p>
       <p>User {JSON.stringify(user)}</p>
@@ -41,6 +44,14 @@ const Home: NextPage<ComponentWithAlerts> = () => {
 
     </div>
   )
+}
+
+export async function getStaticProps({locale}: {locale: string}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common']))
+    }
+  }
 }
 
 export default Home
