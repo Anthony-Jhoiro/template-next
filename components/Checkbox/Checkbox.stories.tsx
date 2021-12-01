@@ -16,7 +16,7 @@ const Template: Story<CheckboxProps> = (args) => <Checkbox {...args} />
 export const Default = Template.bind({})
 Default.args = {
   label: 'Vim is underrated',
-  checked: true,
+  defaultChecked: true,
   disabled: true
 
 }
