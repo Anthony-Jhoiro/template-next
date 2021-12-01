@@ -1,0 +1,78 @@
+version: 2.1
+
+orbs:
+  ansible-playbook: orbss/ansible-playbook@0.0.5
+
+jobs:
+  setup-vm:
+    executor: python
+    steps:
+      - checkout
+      - ansible/install:
+          version: 2.9.6
+      - ansible/playbook:
+          inventory: ANSIBLE_INVENTORY
+          playbook: ci/setup-instance.yaml
+          private-key: ANSIBLE_SSH_KEY
+
+  docker-build-and-push:
+    working_directory: /dockerapp
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build application Docker image
+          command: |
+            # docker build --cache-from=app -t app .
+            echo true
+      - deploy:
+          name: Publish application to docker hub
+          command: |
+            docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker tag app $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:$CIRCLE_BUILD_NUM
+            docker tag app $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:latest
+            docker push $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:$CIRCLE_BUILD_NUM
+            docker push $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:latest
+
+  apply-new-image:
+    docker:
+      - image: node:latest
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
+      - run: ssh root@MachineB 'docker-compose pull'
+      - run: ssh root@MachineB 'docker-compose restart'
+
+  apply-hasura-migrations:
+    docker:
+      - image: node:latest
+
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: toto
+      HASURA_GRAPHQL_ENDPOINT: tata
+    steps:
+      - checkout
+      - run: yarn add hasura-cli
+      - run: |
+          cd hasura
+          hasura metadata apply
+          hasura migrate apply
+
+
+
+workflows:
+  version: 2
+  build-test-and-lint:
+    jobs:
+      - setup-vm
+      - docker-build-and-push
+      - apply-new-image:
+          requires:
+            - setup-vm
+            - docker-build-and-push
+      - apply-hasura-migrations:
+          requires:
+            - apply-new-image
