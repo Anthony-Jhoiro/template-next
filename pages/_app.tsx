@@ -6,6 +6,7 @@ import {SessionProvider} from "next-auth/react"
 import {AuthContextProvider} from "../hooks/useAuthContext";
 import {ClientProvider} from "../utils/GraphqlClientProvider";
 import {CurrentUserProvider} from "../hooks/useCurrentUser";
+import { appWithTranslation } from 'next-i18next';
 
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
@@ -24,4 +25,4 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
 
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

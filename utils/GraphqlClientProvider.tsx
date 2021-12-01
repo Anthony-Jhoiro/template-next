@@ -9,8 +9,6 @@ export function ClientProvider(props: React.PropsWithChildren<{}>) {
   const [urqlClient, setUrqlClient] = useState(createAnonymousClient());
   const [isAnonymousClient, setIsAnonymousClient] = useState(true);
 
-  console.log('ClientProvider', { token });
-
   useEffect(() => {
     const hasNoToken = token === undefined || token === null;
     if (!hasNoToken && isAnonymousClient) {
