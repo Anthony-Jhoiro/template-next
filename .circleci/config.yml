@@ -5,7 +5,8 @@ orbs:
 
 jobs:
   setup-vm:
-    executor: python
+    docker:
+      - image: cimg/python
     steps:
       - checkout
       - ansible/install:
