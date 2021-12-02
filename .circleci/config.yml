@@ -38,12 +38,12 @@ jobs:
 
   apply-new-image:
     docker:
-      - image: node:latest
+      - image: cimg/base:2021.04
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
+            - $SSH_KEY_FINGERPRINT
       - run:
           name: Install Docker Compose
           environment:
@@ -69,17 +69,13 @@ jobs:
             EOF
       - run:
           name: Apply docker compose
-          run: |
+          command: |
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose pull
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose up -d
 
   apply-hasura-migrations:
     docker:
       - image: node:latest
-#
-#    environment:
-#      HASURA_GRAPHQL_ADMIN_SECRET: toto
-#      HASURA_GRAPHQL_ENDPOINT: tata
     steps:
       - checkout
       - run: yarn add hasura-cli
