@@ -77,7 +77,8 @@ jobs:
 
   apply-hasura-migrations:
     docker:
-      - image: node:latest
+      - image: cimg/node:16.13.1
+
     steps:
       - checkout
       - run: yarn add hasura-cli
