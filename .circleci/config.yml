@@ -71,6 +71,7 @@ jobs:
           name: Apply docker compose
           command: |
             cd ci
+            ssh-keygen -R ${REMOTE_ADDRESS}
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose pull
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose up -d
 
