@@ -1,0 +1,32 @@
+table:
+  name: report
+  schema: public
+object_relationships:
+- name: user
+  using:
+    foreign_key_constraint_on: author
+- name: userByValidatedBy
+  using:
+    foreign_key_constraint_on: validated_by
+array_relationships:
+- name: report_images
+  using:
+    foreign_key_constraint_on:
+      column: report
+      table:
+        name: report_image
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - created_at
+    - updated_at
+    - date
+    - title
+    - article
+    - author
+    - validation_date
+    - validated_by
+    filter: {}
+  role: user

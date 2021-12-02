@@ -1,0 +1,14 @@
+table:
+  name: report_image
+  schema: public
+object_relationships:
+- name: reportByReport
+  using:
+    foreign_key_constraint_on: report
+select_permissions:
+- permission:
+    columns:
+    - link
+    - report
+    filter: {}
+  role: user

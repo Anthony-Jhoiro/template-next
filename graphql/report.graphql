@@ -1,0 +1,38 @@
+fragment reportFragment on report {
+    id
+    created_at
+    updated_at
+    user {
+        id
+        name
+        image
+    }
+    userByValidatedBy {
+        id
+        name
+        image
+    }
+    article
+    title
+    date
+    validation_date
+    report_images {
+        link
+    }
+}
+
+query getReports($limit: Int!, $before: timestamptz) {
+    report(where: {_and: [
+        {date: {_lt: timestamptz}},
+        {validation_date: {_is_null: true}}
+    ]
+    }) {
+        ...reportFragment
+    }
+}
+
+query getReportById($id: uuid!) {
+    report_by_pk(id: $id) {
+        ...reportFragment
+    }
+}
