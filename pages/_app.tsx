@@ -1,12 +1,36 @@
 import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 import '../styles/globals.css'
 import type {AppProps} from 'next/app'
-import {Toaster} from "react-hot-toast";
 import {SessionProvider} from "next-auth/react"
-import {AuthContextProvider} from "../hooks/useAuthContext";
-import {ClientProvider} from "../utils/GraphqlClientProvider";
+import {AuthContextProvider, useAuthContext} from "../hooks/useAuthContext";
 import {CurrentUserProvider} from "../hooks/useCurrentUser";
-import { appWithTranslation } from 'next-i18next';
+import {useEffect, useState} from "react";
+import {createAnonymousClient, createAuthClient} from "../utils/urqlClient";
+import { Provider as UrqlProvider } from 'urql';
+
+
+
+function ClientProvider(props: React.PropsWithChildren<{}>) {
+  const { token } = useAuthContext();
+
+  const [urqlClient, setUrqlClient] = useState(createAnonymousClient());
+
+  console.log('ClientProvider', { token });
+
+  useEffect(() => {
+    const hasNoToken = token === undefined || token === null;
+    if (!hasNoToken) {
+      console.log('Creating auth token');
+      setUrqlClient(createAuthClient());
+    }
+    if (hasNoToken) {
+      console.log('Creating anonymous token');
+      setUrqlClient(createAnonymousClient());
+    }
+  }, [token]);
+
+  return <UrqlProvider value={urqlClient}>{props.children}</UrqlProvider>;
+}
 
 
 function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
@@ -15,14 +39,14 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
       <AuthContextProvider>
         <ClientProvider>
           <CurrentUserProvider>
-            <Toaster/>
             <Component {...pageProps} />
           </CurrentUserProvider>
-        </ClientProvider>
+        </ClientProvider>l
       </AuthContextProvider>
     </SessionProvider>
   </>
 
 }
 
-export default appWithTranslation(MyApp)
+// export default appWithTranslation(MyApp)
+export default MyApp

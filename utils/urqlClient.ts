@@ -11,7 +11,7 @@ import { authExchange } from '@urql/exchange-auth';
 import {getSession} from "next-auth/react";
 import {getEnv} from "./getEnv";
 
-const HTTP_BASE_URL = getEnv('HASURA_URL', '')
+const HTTP_BASE_URL = process.env.NEXT_PUBLIC_HASURA_URL
 const ENDPOINT = '/v1/graphql';
 
 export const HTTP_URL = `${HTTP_BASE_URL}${ENDPOINT}`;

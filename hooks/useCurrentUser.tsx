@@ -42,5 +42,5 @@ export const useCurrentUser = () => {
   if (context === undefined) {
     throw new Error('useCount must be used within a CurrentUserProvider');
   }
-  return {...context};
+  return context;
 };
