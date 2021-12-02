@@ -67,4 +67,6 @@ services:
       POSTGRES_PASSWORD: postgres
 
 
+volumes:
+  hasura_data:
 
