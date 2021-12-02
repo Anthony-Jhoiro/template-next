@@ -70,6 +70,7 @@ jobs:
       - run:
           name: Apply docker compose
           command: |
+            cd ci
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose pull
             DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose up -d
 
