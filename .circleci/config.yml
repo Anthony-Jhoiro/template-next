@@ -84,8 +84,8 @@ jobs:
       - run: yarn add hasura-cli
       - run: |
           cd hasura
-          hasura metadata apply
-          hasura migrate apply
+          ../node_modules/hasura-cli/hasura metadata apply
+          ../node_modules/hasura-cli/hasura migrate apply
 
 
 
