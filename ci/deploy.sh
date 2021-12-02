@@ -1,6 +1,10 @@
 #!/bin/bash
 
 LOGFILE=/var/log/docker-update.log
+TEMP_ENV_FILE=/tmp/env-temp
+DEST_DIR=/home/ubuntu/deployment
+DEST_USERNAME=ubuntu
+DEST=1.2.3.4
 
 function log() {
     echo "$1"
@@ -18,7 +22,7 @@ function check_result() {
 }
 
 log "Update Environment file"
-cat <<EOF > .env
+cat <<EOF > $TEMP_ENV_FILE
 APP_IMAGE_NAME=$APP_IMAGE_NAME
 GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
@@ -29,6 +33,17 @@ HASURA_DOMAIN=$HASURA_DOMAIN
 LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL
 JWT_PUBLIC=$JWT_PUBLIC
 EOF
+
+scp $TEMP_ENV_FILE $DEST_USERNAME@$DEST_DIR:$DEST_DIR/.env
+check_result "Upload env file"
+
+log "Upload Docker Compose file"
+
+scp ./ci/docker-compose.yml $DEST_USERNAME@$DEST_DIR:$DEST_DIR/docker-compose.yml
+check_result "Upload env file"
+
+
+
 
 
 # Update docker-compose
