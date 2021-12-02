@@ -57,17 +57,16 @@ jobs:
           name: Setup env file
           command: |
             cd ci
-            cat <<EOF > .env
-            APP_IMAGE_NAME=${APP_IMAGE_NAME}
-            GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-            GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-            JWT_SECRET=${JWT_SECRET}
-            HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}
-            APP_DOMAIN=${APP_DOMAIN}
-            HASURA_DOMAIN=${HASURA_DOMAIN}
-            LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-            JWT_PUBLIC=${JWT_PUBLIC}
-            EOF
+            echo "" > .env
+            echo "APP_IMAGE_NAME=${APP_IMAGE_NAME}" >> .env
+            echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" >> .env
+            echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
+            echo "JWT_SECRET=${JWT_SECRET}" >> .env
+            echo "HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}" >> .env
+            echo "APP_DOMAIN=${APP_DOMAIN}" >> .env
+            echo "HASURA_DOMAIN=${HASURA_DOMAIN}" >> .env
+            echo "LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}" >> .env
+            echo "JWT_PUBLIC=${JWT_PUBLIC}" >> .env
       - run:
           name: Apply docker compose
           command: |
