@@ -30,29 +30,56 @@ jobs:
       - deploy:
           name: Publish application to docker hub
           command: |
-            docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
-            docker tag app $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:$CIRCLE_BUILD_NUM
-            docker tag app $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:latest
-            docker push $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:$CIRCLE_BUILD_NUM
-            docker push $DOCKER_HUB_USER_ID/$DOCKER_IMAGE:latest
+            docker login -e ${DOCKER_HUB_EMAIL} -u ${DOCKER_HUB_USER_ID} -p ${DOCKER_HUB_PWD}
+            docker tag app ${DOCKER_HUB_USER_ID}/${DOCKER_IMAGE}:$CIRCLE_BUILD_NUM
+            docker tag app ${DOCKER_HUB_USER_ID}/${DOCKER_IMAGE}:latest
+            docker push ${DOCKER_HUB_USER_ID}/${DOCKER_IMAGE}:$CIRCLE_BUILD_NUM
+            docker push ${DOCKER_HUB_USER_ID}/${DOCKER_IMAGE}:latest
 
   apply-new-image:
     docker:
       - image: node:latest
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
             - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
-      - run: ssh root@MachineB 'docker-compose pull'
-      - run: ssh root@MachineB 'docker-compose restart'
+      - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Setup env file
+          command: |
+            cd ci
+            cat <<EOF > .env
+            APP_IMAGE_NAME=${APP_IMAGE_NAME}
+            GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+            GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+            JWT_SECRET=${JWT_SECRET}
+            HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}
+            APP_DOMAIN=${APP_DOMAIN}
+            HASURA_DOMAIN=${HASURA_DOMAIN}
+            LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+            JWT_PUBLIC=${JWT_PUBLIC}
+            EOF
+      - run:
+          name: Apply docker compose
+          run: |
+            DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose pull
+            DOCKER_HOST="ssh://${REMOTE_USER}@${REMOTE_ADDRESS}" docker-compose up -d
 
   apply-hasura-migrations:
     docker:
       - image: node:latest
-
-    environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: toto
-      HASURA_GRAPHQL_ENDPOINT: tata
+#
+#    environment:
+#      HASURA_GRAPHQL_ADMIN_SECRET: toto
+#      HASURA_GRAPHQL_ENDPOINT: tata
     steps:
       - checkout
       - run: yarn add hasura-cli
