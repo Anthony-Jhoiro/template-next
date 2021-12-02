@@ -2,8 +2,14 @@
   hosts: all
   become: yes
   tasks:
+    - name: check if gpg key file exists
+      stat:
+        path: /usr/share/keyrings/docker-archive-keyring.gpg
+      register: gpgkey
+
     - name: Add Docker GPG key
       shell: curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | gpg --dearmor -o "/usr/share/keyrings/docker-archive-keyring.gpg"
+      when: gpgkey.stat.exists == False
 
     - name: Get Architecture
       command: dpkg --print-architecture
@@ -53,8 +59,15 @@
           - docker
         append: yes
 
+    - name: check if docker-compose exists
+      stat:
+        path: /usr/local/bin/docker-compose
+      register: dockercompose
+
     - name: Install Docker-Compose binary
       shell: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      when: dockercompose.stat.exists == False
+
 
     - name: Make docker-compose executable
       file:
@@ -62,6 +75,8 @@
         mode: 0751
         group: docker
         owner: "{{ ansible_user }}"
+      when: dockercompose.stat.exists == False
+
 
 
 
